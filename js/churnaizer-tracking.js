@@ -12,16 +12,16 @@ function trackUserWithChurnaizer(userData) {
 
   window.Churnaizer.track({
     user_id: userData.id,
-    days_since_signup: userData.daysSinceSignup || 30,
+    days_since_signup: userData.days_since_signup || 30,
     monthly_revenue: userData.monthlyRevenue || 0,
     subscription_plan: userData.plan || 'Free',
-    number_of_logins_last30days: userData.loginCount || 1,
-    active_features_used: userData.featuresUsed || 1,
-    support_tickets_opened: userData.supportTickets || 0,
-    last_payment_status: userData.paymentStatus || 'Success',
-    email_opens_last30days: userData.emailOpens || 0,
-    last_login_days_ago: userData.lastLoginDaysAgo || 1,
-    billing_issue_count: userData.billingIssues || 0
+    number_of_logins_last30days: userData.number_of_logins_last30days || 1,
+    active_features_used: userData.active_features_used || 1,
+    support_tickets_opened: userData.support_tickets_opened || 0,
+    last_payment_status: userData.last_payment_status || 'Success',
+    email_opens_last30days: userData.email_opens_last30days || 0,
+    last_login_days_ago: userData.last_login_days_ago || 1,
+    billing_issue_count: userData.billing_issue_count || 0
   }, 'cg_4a7ae37e08f0ac064f93b244487e19b8', function(error, result) {
     if (error) {
       console.error('❌ Churnaizer tracking failed:', error);

@@ -8,7 +8,7 @@ function trackUserWithChurnaizer(userData) {
     return;
   }
 
-  console.log("📦 Sending data to Churnaizer:", userData);
+  console.log("🧪 Sending user data:", userData);
 
   window.Churnaizer.track({
     user_id: userData.id,
@@ -22,7 +22,7 @@ function trackUserWithChurnaizer(userData) {
     email_opens_last30days: userData.emailOpens || 0,
     last_login_days_ago: userData.lastLoginDaysAgo || 1,
     billing_issue_count: userData.billingIssues || 0
-  }, 'cg_4a7ae37e08f0ac064f93b244487e19b8', function(result, error) {
+  }, 'cg_4a7ae37e08f0ac064f93b244487e19b8', function(error, result) {
     if (error) {
       console.error('❌ Churnaizer tracking failed:', error);
     } else {

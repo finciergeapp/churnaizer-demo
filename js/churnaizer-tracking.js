@@ -4,76 +4,33 @@
  */
 function trackUserWithChurnaizer(userData) {
   if (!window.Churnaizer) {
-    console.error('Churnaizer SDK not loaded');
-    const resultElement = document.getElementById('result');
-    if (resultElement) {
-      resultElement.innerHTML = `<p style="color: red;">❌ Error: Churnaizer SDK not loaded. Please check your script inclusion.</p>`;
-    }
+    console.error('❌ Churnaizer SDK not loaded');
     return;
   }
 
-  console.log('[TRACE] Sending user data to Churnaizer:', userData);
+  console.log("📦 Sending data to Churnaizer:", userData);
 
-  // Prepare payload with all required fields and safe defaults
-  // Following the guidelines from the Churnaizer documentation
   window.Churnaizer.track({
-    // Required user identification fields
-    user_id: userData.id || 'unknown',
-    email: userData.email || 'unknown',
-    customer_name: userData.name || 'unknown',
-    customer_email: userData.email || 'unknown',
-    
-    // Subscription and revenue information
-    subscription_plan: userData.plan || 'free',
+    user_id: userData.id,
+    days_since_signup: userData.daysSinceSignup || 30,
     monthly_revenue: userData.monthlyRevenue || 0,
-    
-    // Usage metrics
-    loginCount: userData.loginCount || 0,
-    dashboardViews: userData.dashboardViews || 0,
-    
-    // Feature usage breakdown
-    feature_usage: {
-      dashboard: userData.dashboardViews || 0,
-      reports: userData.reportsGenerated || 0,
-      settings: userData.settingsAccessed || 0
-    },
-    
-    // Additional required fields with defaults
-    days_since_signup: userData.days_since_signup || 0,
-    number_of_logins_last30days: userData.number_of_logins_last30days || 0,
-    active_features_used: userData.active_features_used || [],
-    support_tickets_opened: userData.support_tickets_opened || 0,
-    last_payment_status: userData.last_payment_status || 'unknown',
-    email_opens_last30days: userData.email_opens_last30days || 0,
-    last_login_days_ago: userData.last_login_days_ago || 0,
-    billing_issue_count: userData.billing_issue_count || 0
-  }, 'cg_261f34e9bdd5de338ee994e8f99d7809', function(result, error) {
-    // Update result display if available
-    const resultElement = document.getElementById('result');
-    
-    if (error && error.message) {
-      console.error('Churnaizer tracking failed:', error);
-      if (resultElement) {
-        resultElement.innerHTML = `<p style="color: red;">❌ Error: ${error.message || 'Unknown error'}</p>`;
-      }
-      return;
+    subscription_plan: userData.plan || 'Free',
+    number_of_logins_last30days: userData.loginCount || 1,
+    active_features_used: userData.featuresUsed || 1,
+    support_tickets_opened: userData.supportTickets || 0,
+    last_payment_status: userData.paymentStatus || 'Success',
+    email_opens_last30days: userData.emailOpens || 0,
+    last_login_days_ago: userData.lastLoginDaysAgo || 1,
+    billing_issue_count: userData.billingIssues || 0
+  }, 'cg_4a7ae37e08f0ac064f93b244487e19b8', function(result, error) {
+    if (error) {
+      console.error('❌ Churnaizer tracking failed:', error);
+    } else {
+      console.log('✅ Churn prediction result:', result);
     }
-    
-    // Result is the first parameter in the new API format
-    console.log('[TRACE] Client received result:', result);
-    
-    // Display the API response in the test page if result element exists
-    if (resultElement) {
-      resultElement.innerHTML = `
-        <p style="color: green;">✅ Tracking successful!</p>
-        <pre style="background: #f5f5f5; padding: 10px; border-radius: 5px; overflow: auto;">${JSON.stringify(result, null, 2)}</pre>
-      `;
-    }
-    
-    // Handle high-risk users 
-    if (result && result.risk_level === 'high') {
-      console.log('⚠️ High churn risk detected:', result.churn_reason);
-      // You can trigger custom retention actions here 
+
+    // Optional: Retention logic
+    if (result?.risk_level === 'high') {
       showRetentionOffer(result);
     }
   });

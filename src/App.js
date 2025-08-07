@@ -22,7 +22,7 @@ function useCurrentUser() {
     paymentStatus: 'Success',
     emailOpens: 10,
     lastLoginDaysAgo: 5,
-    billingIssues: 0
+    billingIssues: 78
   };
 }
 

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Churnaizer SDK Test</title>
+    <!-- Scripts moved to bottom of body -->
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            min-height: 100px;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow: auto;
+            font-family: monospace;
+        }
+        .instructions {
+            background-color: #e7f3fe;
+            border-left: 4px solid #2196F3;
+            padding: 12px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Churnaizer SDK Integration Test</h1>
+    
+    <div class="instructions">
+        <h3>Test Instructions</h3>
+        <p>Click the button below to send a test user profile to the Churnaizer API. This will:</p>
+        <ol>
+            <li>Send a complete user profile with all required fields</li>
+            <li>Display the API response below</li>
+            <li>Show a retention offer if the user is flagged as high-risk</li>
+        </ol>
+        <p>Check your browser console (F12) for detailed logs.</p>
+    </div>
+    
+    <button onclick="testTracking()">Test User Tracking</button>
+    <div id="result"><p>Results will appear here after testing...</p></div>
+     
+    <script>
+        /**
+         * Test function to trigger user tracking with complete data
+         * This sends a comprehensive user profile to the Churnaizer API
+         */
+        function testTracking() {
+            // Complete test user with all required fields according to Churnaizer SDK documentation
+            const testUser = {
+                // User identification (required)
+                id: 'test_user_123',
+                email: 'churnaizer@gmail.com',
+                name: 'Test User',
+                customer_name: 'Test Organization',  // Organization name if applicable
+                customer_email: 'churnaizer@gmail.com', // Admin email if different
+                
+                // Subscription details (required)
+                plan: 'premium',
+                subscription_plan: 'premium', // Alternative field name
+                monthlyRevenue: 49,
+monthly_revenue: 49,      // Alternative field name
+                
+                // Usage metrics (recommended)
+                loginCount: 25,
+                dashboardViews: 42,
+                reportsGenerated: 15,
+                settingsAccessed: 8,
+                
+                // Time-based metrics (required)
+                days_since_signup: 120,
+                number_of_logins_last30days: 18,
+                last_login_days_ago: 2,
+                
+                // Engagement metrics (recommended)
+                active_features_used: ['dashboard', 'reports', 'analytics', 'export'],
+                email_opens_last30days: 12,
+                
+                // Support and billing (required)
+                support_tickets_opened: 1,
+                last_payment_status: 'paid',
+                billing_issue_count: 0,
+                
+                // Additional metrics that might help with churn prediction
+                feature_usage: {
+                    dashboard: 42,
+                    reports: 15,
+                    settings: 8,
+                    analytics: 22,
+                    export: 5
+                }
+            };
+             
+            // Show loading state with more detailed information
+            document.getElementById('result').innerHTML =
+                `<div style="padding: 10px; background-color: #e6f7ff; border-left: 4px solid #1890ff; border-radius: 4px; margin-bottom: 15px;">
+                    <p style="color: #0050b3; margin: 0;">⏳ Sending tracking data to Churnaizer API...</p>
+                    <p style="color: #666; margin: 5px 0 0 0; font-size: 0.9em;">User ID: ${testUser.id} | Plan: ${testUser.plan} | Revenue: $${testUser.monthlyRevenue}</p>
+                </div>`;
+                
+            // Call the tracking function
+            trackUserWithChurnaizer(testUser);
+        }
+    </script>
+    
+    <!-- Before closing body tag -->
+    <script src="churnaizer-sdk.js"></script>
+    <script src="js/churnaizer-tracking.js"></script>
+</body>
+</html>

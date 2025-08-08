@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://cdn.churnaizer.com/sdk/churnaizer-sdk.js"></script>
+  <script src="https://ntbkydpgjaswmwruegyl.supabase.co/functions/v1/churnaizer-sdk.js"></script>
+  <script>
+    // Optional SDK configuration
+    window.ChurnaizerConfig = {
+      modalEnabled: true,        // Show retention popups for high-risk users
+      checkInterval: 5000,       // Check user activity every 5 seconds
+      autoTrigger: true,         // Auto-start retention monitoring
+      debug: false               // Set to true for development only
+    };
+  </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Churnaizer Dummy App</title>
